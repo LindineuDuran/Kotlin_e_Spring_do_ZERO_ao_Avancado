@@ -8,4 +8,4 @@
 - Eventos
 - Spring Security
 - Testes Unitários com Mockk
-
+- [Swagger UI](http://localhost:8080/swagger-ui/#/)
