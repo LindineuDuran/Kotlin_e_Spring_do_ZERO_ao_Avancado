@@ -8,4 +8,5 @@
 - Eventos
 - Spring Security
 - Testes Unitários com Mockk
-- [Swagger UI](http://localhost:8080/swagger-ui/#/)
+- [Adicione Swagger ao Spring Boot em 1 minuto (sem Spring Fox)](https://datmt.com/backend/java/spring/add-swagger-to-spring-boot-in-1-minute-without-spring-fox/)
+- [Swagger UI](http://localhost:8080/swagger-ui/index.html#/)
