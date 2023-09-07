@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
 import org.springframework.stereotype.Service
+import org.springframework.web.bind.annotation.PathVariable
 
 @Service
 class CustomerService(val customerRepository: CustomerRepository,
@@ -34,13 +35,11 @@ class CustomerService(val customerRepository: CustomerRepository,
         customerRepository.save(customer)
     }
 
-    fun delete(id: Int) {
+    fun delete(@PathVariable id: Int) {
         val customer = findById(id)
         bookService.deleteByCustomer(customer)
-
         customer.status = CustomerStatus.INATIVO
-
-        customerRepository.deleteById(id)
+        customerRepository.save(customer)
     }
 
     fun emailAvailable(email: String): Boolean {

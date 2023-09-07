@@ -44,11 +44,6 @@ class BookService(val bookRepository: BookRepository,
     }
 
     fun update(book: BookModel) {
-        if(!bookRepository.existsById(book.id!!)){ throw NotFoundException(Errors.ML101.message.format(book.id!!), Errors.ML101.code) }
-
-        val bookSaved = findById(book.id!!)
-        book.status= bookSaved.status
-
         bookRepository.save(book)
     }
 
