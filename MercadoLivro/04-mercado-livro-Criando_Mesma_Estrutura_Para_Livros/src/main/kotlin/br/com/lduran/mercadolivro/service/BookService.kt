@@ -41,11 +41,7 @@ class BookService(val bookRepository: BookRepository,
         }
     }
 
-    fun update(book: BookModel) {
-        if(!bookRepository.existsById(book.id!!)){ throw Exception() }
-
-        bookRepository.save(book)
-    }
+    fun update(book: BookModel) {bookRepository.save(book)}
 
     fun delete(@PathVariable id: Int) {
         val book = findById(id)

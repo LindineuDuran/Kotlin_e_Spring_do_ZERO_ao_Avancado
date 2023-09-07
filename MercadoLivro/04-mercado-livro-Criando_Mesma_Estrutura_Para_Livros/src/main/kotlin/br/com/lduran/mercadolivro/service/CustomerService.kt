@@ -38,6 +38,6 @@ class CustomerService(val customerRepository: CustomerRepository,
 
         customer.status = CustomerStatus.INATIVO
 
-        customerRepository.deleteById(id)
+        customerRepository.save(customer)
     }
 }
