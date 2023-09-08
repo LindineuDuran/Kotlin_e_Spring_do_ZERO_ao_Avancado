@@ -7,7 +7,7 @@ import br.com.lduran.mercadolivro.controller.response.PurchaseResponse
 import br.com.lduran.mercadolivro.extension.toPageResponse
 import br.com.lduran.mercadolivro.service.CustomerService
 import br.com.lduran.mercadolivro.service.PurchaseService
-import org.springframework.data.domain.Page
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
@@ -16,6 +16,7 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("/purchases")
+@SecurityRequirement(name = "Bearer Authentication")
 class PurchaseController(private val purchaseService: PurchaseService,
                          private val purchaseMapper: PurchaseMapper,
                          private val customerService: CustomerService

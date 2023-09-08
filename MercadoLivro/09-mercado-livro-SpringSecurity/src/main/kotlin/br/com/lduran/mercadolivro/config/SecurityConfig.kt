@@ -7,6 +7,8 @@ import br.com.lduran.mercadolivro.security.AuthorizationFilter
 import br.com.lduran.mercadolivro.security.CustomAuthenticationEntryPoint
 import br.com.lduran.mercadolivro.security.JwtUtil
 import br.com.lduran.mercadolivro.service.UserDetailsCustomService
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType
+import io.swagger.v3.oas.annotations.security.SecurityScheme
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -28,6 +30,7 @@ import org.springframework.security.web.SecurityFilterChain as SecurityFilterCha
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@SecurityScheme(name = "Bearer Authentication", type = SecuritySchemeType.HTTP, bearerFormat = "JWT", scheme = "bearer")
 class SecurityConfig(private val configuration: AuthenticationConfiguration,
                      private val customerRepository: CustomerRepository,
                      private val userDetails: UserDetailsCustomService,
@@ -36,8 +39,8 @@ class SecurityConfig(private val configuration: AuthenticationConfiguration,
 ) {
     private val ADMIN_MATCHERS = arrayOf("/admin/**")
     private val PUBLIC_MATCHERS = arrayOf<String>()
-    private val PUBLIC_POST_MATCHERS = arrayOf("/customers")
-    private val PERMIT_ALL = arrayOf("/v2/api-docs/**", "/v2/swagger-ui/**", "/swagger-ui/**")
+    private val PUBLIC_POST_MATCHERS = arrayOf("/customers", "/customers/list")
+    private val PERMIT_ALL = arrayOf("/swagger-ui/**", "/v3/api-docs/**")
 
     fun config(auth: AuthenticationManagerBuilder){
         auth.userDetailsService(userDetails).passwordEncoder(bCryptPasswordEncoder())
@@ -82,6 +85,7 @@ class SecurityConfig(private val configuration: AuthenticationConfiguration,
         return WebSecurityCustomizer { web: WebSecurity ->
             web.ignoring()
                 .antMatchers(*PERMIT_ALL)
+                .antMatchers(HttpMethod.POST, *PUBLIC_POST_MATCHERS)
         }
     }
 

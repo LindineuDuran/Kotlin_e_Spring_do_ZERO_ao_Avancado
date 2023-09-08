@@ -9,7 +9,7 @@ import br.com.lduran.mercadolivro.extension.toPageResponse
 import br.com.lduran.mercadolivro.extension.toResponse
 import br.com.lduran.mercadolivro.service.BookService
 import br.com.lduran.mercadolivro.service.CustomerService
-import org.springframework.data.domain.Page
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
@@ -18,6 +18,7 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("/books")
+@SecurityRequirement(name = "Bearer Authentication")
 class BookController(private val bookService : BookService,
                      private val customerService: CustomerService) {
     @GetMapping
