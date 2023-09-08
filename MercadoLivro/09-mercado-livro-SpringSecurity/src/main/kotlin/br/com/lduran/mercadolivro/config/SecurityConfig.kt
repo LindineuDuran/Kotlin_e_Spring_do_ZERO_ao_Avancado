@@ -31,7 +31,8 @@ import org.springframework.security.web.SecurityFilterChain as SecurityFilterCha
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @SecurityScheme(name = "Bearer Authentication", type = SecuritySchemeType.HTTP, bearerFormat = "JWT", scheme = "bearer")
-class SecurityConfig(private val configuration: AuthenticationConfiguration,
+class SecurityConfig(
+                     private val configuration: AuthenticationConfiguration,
                      private val customerRepository: CustomerRepository,
                      private val userDetails: UserDetailsCustomService,
                      private val jwtUtil: JwtUtil,
@@ -42,7 +43,7 @@ class SecurityConfig(private val configuration: AuthenticationConfiguration,
     private val PUBLIC_POST_MATCHERS = arrayOf("/customers", "/customers/list")
     private val PERMIT_ALL = arrayOf("/swagger-ui/**", "/v3/api-docs/**")
 
-    fun config(auth: AuthenticationManagerBuilder){
+    fun config(auth: AuthenticationManagerBuilder) {
         auth.userDetailsService(userDetails).passwordEncoder(bCryptPasswordEncoder())
     }
 
@@ -58,8 +59,20 @@ class SecurityConfig(private val configuration: AuthenticationConfiguration,
             //.antMatchers(HttpMethod.GET, "/books/**").permitAll()
             .anyRequest().authenticated()
 
-        http.addFilter(AuthenticationFilter(authenticationManager = configuration.authenticationManager, customerRepository, jwtUtil))
-        http.addFilter(AuthorizationFilter(authenticationManager = configuration.authenticationManager, userDetails, jwtUtil))
+        http.addFilter(
+            AuthenticationFilter(
+                authenticationManager = configuration.authenticationManager,
+                customerRepository,
+                jwtUtil
+            )
+        )
+        http.addFilter(
+            AuthorizationFilter(
+                authenticationManager = configuration.authenticationManager,
+                userDetails,
+                jwtUtil
+            )
+        )
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
@@ -90,7 +103,7 @@ class SecurityConfig(private val configuration: AuthenticationConfiguration,
     }
 
     @Bean
-    fun bCryptPasswordEncoder(): BCryptPasswordEncoder{
+    fun bCryptPasswordEncoder(): BCryptPasswordEncoder {
         return BCryptPasswordEncoder()
     }
 }
