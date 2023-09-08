@@ -10,7 +10,9 @@ import br.com.lduran.mercadolivro.extension.toPageResponse
 import br.com.lduran.mercadolivro.extension.toResponse
 import br.com.lduran.mercadolivro.security.UserCanOnlyAccessTheirOwnResource
 import br.com.lduran.mercadolivro.service.CustomerService
+import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
@@ -19,9 +21,11 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("/customers")
+@Tag(name = "Customers", description = "Endpoints for Managing Customers")
 class CustomerController(private val customerService : CustomerService) {
     @GetMapping
     @SecurityRequirement(name = "Bearer Authentication")
+    @Operation(summary = "Finds all Customers", description = "Finds all Customers", tags = arrayOf("Customers"))
     fun findAll(@PageableDefault(page= 0, size= 10) pageable: Pageable,
                 @RequestParam(required = false) name: String?): PageResponse<CustomerResponse> {
         return customerService.findAll(pageable,name).map { it.toResponse() }.toPageResponse()
@@ -30,18 +34,25 @@ class CustomerController(private val customerService : CustomerService) {
     @GetMapping("/{id}")
     @UserCanOnlyAccessTheirOwnResource
     @SecurityRequirement(name = "Bearer Authentication")
+    @Operation(summary = "Finds a Customer", description = "Finds a Customer", tags = arrayOf("Customers"))
     fun findById(@PathVariable id: Int): CustomerResponse {
         return customerService.findById(id).toResponse()
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Adds a new Customer",
+               description = "Adds a new Customer by passing in a JSON representation of the customer!",
+               tags = arrayOf("Customers"))
     fun create(@RequestBody @Valid customer: PostCustomerRequest) {
         customerService.create(customer.toCustomerModel())
     }
 
     @PostMapping("/list")
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Adds a list of new Customers",
+        description = "Adds a list of new Customers by passing in a JSON representation of the customer!",
+        tags = arrayOf("Customers"))
     fun createList(@RequestBody @Valid customers: List<PostCustomerRequest>) {
         customerService.createList(customers.toCustomerModelList())
     }
@@ -49,6 +60,9 @@ class CustomerController(private val customerService : CustomerService) {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @SecurityRequirement(name = "Bearer Authentication")
+    @Operation(summary = "Updates a Customer",
+               description = "Updates a Customer by passing in a JSON representation of the customer!",
+               tags = arrayOf("Customers"))
     fun update(@PathVariable id: Int, @RequestBody @Valid customer: PutCustomerRequest) {
         val customerSaved = customerService.findById(id)
         customerService.update(customer.toCustomerModel(customerSaved))
@@ -57,6 +71,9 @@ class CustomerController(private val customerService : CustomerService) {
     @DeleteMapping("/{id}")
     @SecurityRequirement(name = "Bearer Authentication")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Deletes a Customer",
+        description = "Deletes a Customer by passing in a JSON representation of the customer!",
+        tags = arrayOf("Customers"))
     fun delete(@PathVariable id: Int) {
         customerService.delete(id)
     }
