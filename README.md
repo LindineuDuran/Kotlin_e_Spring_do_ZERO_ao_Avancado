@@ -12,6 +12,7 @@
 - [Kotlin If ... Else](https://www.w3schools.com/kotlin/kotlin_conditions.php)
 - [Como usar Elvis Operator](https://dev.to/kotlinautas/como-usar-elvis-operator-p2)
 - [Concatenate Strings in Kotlin](https://www.baeldung.com/kotlin/concatenate-strings)
+- [Kotlin - como analisar uma cadeia de caracteres que está em um formato LocalDateTime ou LocalDate em LocalDate](https://stackoverflow.com/questions/72551695/kotlin-how-to-parse-a-string-that-is-either-in-a-localdatetime-or-localdate-fo)
 - [Kotlin predicate](https://zetcode.com/kotlin/predicate/)
 - [Better way to map Kotlin data objects to data objects](https://stackoverflow.com/questions/39199426/better-way-to-map-kotlin-data-objects-to-data-objects)
 - [Adicione Swagger ao Spring Boot em 1 minuto (sem Spring Fox)](https://datmt.com/backend/java/spring/add-swagger-to-spring-boot-in-1-minute-without-spring-fox/)
